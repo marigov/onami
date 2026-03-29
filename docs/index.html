@@ -1,95 +1,34 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Onami</title>
-    <meta name="description" content="Onami is a simple radio app for iPhone with fast discovery, favorites, and calm playback.">
-    <link rel="icon" href="./images/icon_light.png">
-    <link rel="stylesheet" href="./styles.css">
-</head>
-<body>
-    <div class="page">
-        <main class="hero">
-            <div class="hero-copy">
-                <div class="app-lockup">
-                    <img class="app-icon" src="./images/icon_light.png" alt="Onami app icon">
-                    <p class="app-title">
-                        <span class="app-name">Onami.</span>
-                        <span class="app-tagline">Radio<span class="app-tagline-muted">, without the clutter.</span></span>
-                    </p>
-                </div>
+Hello,
 
-                <p class="intro">
-                    A simple free radio app for iPhone. Discover stations quickly, keep favorites close, and stay focused on what is playing.
-                </p>
-                <p class="plus-copy">
-                    With Plus, get unlimited favorites, no ads, live Shazam recognition, and Apple Music integration.
-                </p>
+    We would like to provide clarification on both the in-app purchase issue and the content sourcing model in Onami.
 
-                <a class="app-store-badge" href="https://apps.apple.com/us/app/apple-tv/id1174078549?itscg=30200&itsct=apps_box_badge&mttnsubad=1174078549">
-                    <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us?releaseDate=1481155200" alt="Download on the App Store">
-                </a>
-            </div>
+    1. In-App Purchase
 
-            <div class="hero-media" aria-label="Onami app screenshots">
-                <div
-                    class="shot-stage"
-                    data-screens="./images/screen_playing.png|Onami now playing screen,./images/screen_discover.png|Onami discover screen,./images/screen_favorites.png|Onami favorites screen"
-                >
-                    <img class="shot shot-base" src="./images/screen_playing.png" alt="Onami now playing screen">
-                    <img class="shot shot-overlay" src="./images/screen_playing.png" alt="">
-                </div>
-            </div>
-        </main>
+    We updated the app to use the current in-app purchase product ID `com.marigov.onami.plus` and verified on-device sandbox testing successfully for product loading,
+    purchase, and restore. We also noticed that the English (U.S.) localization for the in-app purchase is marked Rejected in App Store Connect and that the IAP is currently
+    in Developer Action Needed status. Could you please confirm whether this rejected localization is the remaining reason the IAP did not load during review, and if so,
+    which localization field should be corrected?
 
-        <footer class="footer">
-            <div class="footer-inner">
-                <span class="footer-copy">&copy; 2026 Onami. All rights reserved.</span>
-                <nav class="footer-links" aria-label="Footer navigation">
-                    <a href="/privacy" class="footer-link">Privacy Policy</a>
-                    <a href="mailto:support@onami.app" class="footer-link">Support</a>
-                </nav>
-            </div>
-        </footer>
-    </div>
+    2. App content and rights clarification
 
-    <script>
-        (() => {
-            const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-            if (mediaQuery.matches) return;
+    Onami is the digital equivalent of a radio receiver and functions as a radio directory/player. It is not a broadcaster and does not exercise editorial or programming
+    control over third-party station content. The app's station directory metadata is sourced from Radio Browser (`https://www.radio-browser.info/`), which publicly states
+    that its collected station data is in the public domain and available for use in third-party apps. Onami uses station metadata such as station names, tags, stream links,
+    homepage links, language, country, and region from that source, and directs playback to the original station streams.
 
-            const stage = document.querySelector(".shot-stage");
-            if (!stage) return;
+    Onami does not store or redistribute the audio streams themselves.
 
-            const baseImage = stage.querySelector(".shot-base");
-            const overlayImage = stage.querySelector(".shot-overlay");
-            const screens = (stage.dataset.screens || "")
-                .split(",")
-                .map((entry) => entry.split("|"))
-                .filter((entry) => entry.length === 2);
+    Station availability, metadata, and schedules may change or be removed by the source provider.
 
-            if (screens.length < 2 || !baseImage || !overlayImage) return;
+    Onami uses Radio Browser metadata as a source for station directory information, but is not endorsed by or affiliated with Radio Browser.
 
-            let index = 0;
-            const showNextScreen = () => {
-                index = (index + 1) % screens.length;
-                const [src, alt] = screens[index];
-                overlayImage.classList.remove("is-visible");
-                overlayImage.src = src;
-                overlayImage.alt = alt;
-                requestAnimationFrame(() => { overlayImage.classList.add("is-visible"); });
-            };
+    Onami's song detection feature uses Apple ShazamKit only to analyze the currently playing live stream in real time for recognition purposes. The app does not record,
+    download, or permanently store the audio stream on device as part of this feature. When a match is found, Onami displays the match metadata returned by ShazamKit, such
+    as song title, artist, and artwork URL, only contextually during playback, and provides the corresponding Apple Music link when available.
 
-            overlayImage.addEventListener("transitionend", () => {
-                if (!overlayImage.classList.contains("is-visible")) return;
-                baseImage.src = overlayImage.src;
-                baseImage.alt = overlayImage.alt;
-                overlayImage.classList.remove("is-visible");
-            });
+    If a station owner or rights holder requests removal of a listing or related metadata, we will promptly review and remove it as appropriate. Rights holder removal
+    requests can be sent to `miketwo+onami@me.com`.
 
-            window.setInterval(showNextScreen, 5200);
-        })();
-    </script>
-</body>
-</html>
+    If you need any additional clarification regarding the station metadata source or the in-app purchase localization status, please let us know.
+
+    Thank you.
