@@ -15,7 +15,7 @@
                     <img class="app-icon" src="images/icon_light.png" alt="Onami app icon">
                     <h1 class="app-title">
                         <span class="app-name">Onami</span>
-                        <span class="app-tagline">radio, <span class="app-tagline-muted">without the clutter</span></span>
+                        <span class="app-tagline">Radio, <span class="app-tagline-muted">without the clutter</span></span>
                     </h1>
                 </div>
 
@@ -24,29 +24,39 @@
                 </p>
 
                 <p class="plus-copy">
-                    Onami Plus unlocks song detection, removes ads, and expands favorites for listeners who want the full app.
+                    <span class="plus-emphasis">Onami Plus</span> unlocks song detection, removes ads, and expands favorites for
+                    listeners who want the full app.
                 </p>
 
-                <a class="app-store-badge footer-link" href="mailto:miketwo+onami@me.com">
-                    Contact support
+                <a
+                    class="app-store-badge"
+                    href="https://apps.apple.com/us/app/onami/id6760269737?itscg=30200&amp;itsct=apps_box_badge&amp;mttnsubad=6760269737"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Download Onami on the App Store"
+                >
+                    <img
+                        class="app-store-badge-image"
+                        src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us?releaseDate=1774742400"
+                        alt="Download on the App Store"
+                    >
                 </a>
             </div>
 
             <div class="hero-media" aria-hidden="true">
                 <div class="shot-stage">
-                    <img class="shot shot-base" src="images/screen_discover.png" alt="">
-                    <img class="shot shot-overlay is-visible" src="images/screen_favorites.png" alt="">
-                    <img class="shot shot-overlay" src="images/screen_playing.png" alt="">
+                    <img class="shot" src="images/screen_discover.png" alt="">
+                    <img class="shot is-active" src="images/screen_favorites.png" alt="">
+                    <img class="shot" src="images/screen_playing.png" alt="">
                 </div>
             </div>
         </section>
 
         <footer class="footer">
             <div class="footer-inner">
-                <p class="footer-copy">Onami for iPhone</p>
+                <p class="footer-copy">© 2026 Onami. All rights reserved.</p>
                 <nav class="footer-links" aria-label="Footer">
                     <a class="footer-link" href="mailto:miketwo+onami@me.com">Support</a>
-                    <a class="footer-link" href="https://developer.apple.com/documentation/shazamkit">ShazamKit</a>
                 </nav>
             </div>
         </footer>
@@ -54,17 +64,17 @@
 
     <script>
         (function () {
-            var overlays = Array.prototype.slice.call(document.querySelectorAll(".shot-overlay"));
-            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || overlays.length < 2) {
+            var shots = Array.prototype.slice.call(document.querySelectorAll(".shot-stage .shot"));
+            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || shots.length < 2) {
                 return;
             }
 
             var index = 0;
             window.setInterval(function () {
-                overlays[index].classList.remove("is-visible");
-                index = (index + 1) % overlays.length;
-                overlays[index].classList.add("is-visible");
-            }, 2600);
+                shots[index].classList.remove("is-active");
+                index = (index + 1) % shots.length;
+                shots[index].classList.add("is-active");
+            }, 4200);
         }());
     </script>
 </body>
