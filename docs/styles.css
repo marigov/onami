@@ -5,8 +5,6 @@
     --muted-soft: #8d8d92;
     --accent: #ff9b32;
     --divider: rgba(17, 17, 17, 0.08);
-    --shadow-icon: 0 10px 28px rgba(24, 24, 24, 0.10), 0 2px 8px rgba(24, 24, 24, 0.06);
-    --shadow-badge: 0 10px 22px rgba(17, 17, 17, 0.10), 0 2px 6px rgba(17, 17, 17, 0.08);
     --shadow-shot: 0 30px 65px rgba(12, 12, 16, 0.14), 0 8px 18px rgba(12, 12, 16, 0.08);
 }
 
@@ -20,7 +18,6 @@ html,
 body {
     min-height: 100%;
     background-color: var(--bg);
-    background-image: none;
     color: var(--text);
     font-family: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -47,91 +44,132 @@ a {
     width: min(1110px, calc(100% - 56px));
     height: 100svh;
     margin: 0 auto;
-    padding: clamp(18px, 3vw, 34px) 0 20px;
-    background-color: var(--bg);
+    padding: clamp(18px, 3vw, 28px) 0 20px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
+
+/* Header: just the platform switch. */
+
+.topbar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.platform-toggle {
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 3px;
+    border-radius: 999px;
+    background: rgba(118, 118, 128, 0.12);
+}
+
+.platform-toggle-thumb {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    border-radius: 999px;
+    background: var(--bg);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.04);
+    transition: transform 0.28s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+[data-platform="mac"] .platform-toggle-thumb {
+    transform: translateX(100%);
+}
+
+.platform-option {
+    position: relative;
+    min-width: 80px;
+    padding: 6px 16px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 590;
+    letter-spacing: -0.01em;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.platform-option[aria-selected="true"] {
+    color: var(--text);
+}
+
+.platform-option:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Hero: screenshot on the left, copy on the right. */
 
 .hero {
     flex: 1;
     display: grid;
-    grid-template-columns: minmax(340px, 380px) minmax(380px, 500px);
+    grid-template-columns: minmax(340px, 480px) minmax(360px, 460px);
     align-items: center;
     justify-content: center;
-    gap: clamp(54px, 7vw, 110px);
+    column-gap: clamp(54px, 7vw, 110px);
+    min-height: 0;
+}
+
+.hero-media {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-height: 0;
 }
 
 .hero-copy {
-    order: 2;
-    max-width: 490px;
-    padding-top: 0;
+    grid-column: 2;
+    grid-row: 1;
 }
 
-.app-lockup {
-    display: inline-flex;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 28px;
-}
-
-.app-icon {
-    width: 72px;
-    height: 72px;
-    border-radius: 18px;
-    box-shadow: var(--shadow-icon);
-}
-
-.app-title {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+.headline {
     font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-    line-height: 1;
-}
-
-.app-name {
-    font-size: clamp(1.68rem, 2.18vw, 2.42rem);
-    font-weight: 680;
-    letter-spacing: -0.035em;
-}
-
-.app-tagline {
-    font-size: clamp(1rem, 1.38vw, 1.42rem);
-    font-weight: 500;
-    letter-spacing: -0.025em;
+    font-size: clamp(1.9rem, 2.6vw, 2.5rem);
+    font-weight: 700;
     line-height: 1.08;
-    color: var(--muted);
+    letter-spacing: -0.032em;
+    /* App icon beside the headline, spanning both lines. */
+    display: flex;
+    align-items: center;
+    gap: 0.32em;
 }
 
-.app-tagline-muted {
-    color: var(--muted);
+.headline-icon {
+    flex: none;
+    width: 1.9em;
+    height: 1.9em;
+    filter: drop-shadow(0 0 0.5px rgba(0, 0, 0, 0.28));
 }
 
-.intro,
-.plus-copy {
-    max-width: 35ch;
-    font-size: clamp(1.18rem, 1.38vw, 1.34rem);
+.headline-muted {
+    display: block;
+    color: var(--muted);
+    text-wrap: balance;
+}
+
+.intro {
+    max-width: 38ch;
+    margin-top: 22px;
+    font-size: clamp(1.1rem, 1.3vw, 1.25rem);
     font-weight: 450;
-    line-height: 1.6;
+    line-height: 1.55;
     letter-spacing: -0.012em;
     color: var(--muted);
 }
 
-.plus-copy {
-    margin-top: 16px;
-}
-
-.plus-emphasis {
-    font-weight: 590;
-    color: var(--text);
-}
-
 .app-store-badge {
     display: inline-block;
-    margin-top: 32px;
+    margin-top: 30px;
     transition: opacity 0.18s ease;
 }
 
@@ -143,28 +181,72 @@ a {
     opacity: 0.58;
 }
 
+/* Apple's badges have different widths; matching heights keeps the spacing identical. */
 .app-store-badge-image {
-    display: block;
-    width: 220px;
-    max-width: 100%;
-    height: auto;
-    vertical-align: middle;
-    object-fit: contain;
+    width: auto;
+    height: 56px;
 }
 
-.hero-media {
-    order: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 0;
+.plus-note {
+    max-width: 40ch;
+    margin-top: 18px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    color: var(--muted-soft);
+}
+
+.plus-note strong {
+    font-weight: 590;
+    color: var(--muted);
+}
+
+/* Both platforms share fixed slots and crossfade, so nothing moves when toggling. */
+
+.swap {
+    display: grid;
+    justify-items: start;
+}
+
+.swap > * {
+    grid-area: 1 / 1;
+}
+
+[data-show] {
+    transition: opacity 0.35s ease, visibility 0.35s;
+}
+
+[data-platform="ios"] [data-show="mac"],
+[data-platform="mac"] [data-show="ios"] {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.stage-box {
+    --stage-h: min(51vw, 640px, 100svh - 220px);
+    position: relative;
+    width: min(calc(var(--stage-h) * 0.75), 100%);
+    aspect-ratio: 3 / 4;
 }
 
 .shot-stage {
-    position: relative;
-    width: min(25vw, 310px);
-    aspect-ratio: 1290 / 2796;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    aspect-ratio: 640 / 1321;
     filter: drop-shadow(var(--shadow-shot));
+}
+
+/* The iPhone is narrower than the Mac window; keep it close to the copy like the Mac window. */
+.shot-stage-ios {
+    right: 6%;
+}
+
+/* Mac screenshots already include the window shadow. */
+.shot-stage-mac {
+    aspect-ratio: 1052 / 1406;
+    filter: none;
 }
 
 .shot {
@@ -180,6 +262,8 @@ a {
 .shot.is-active {
     opacity: 1;
 }
+
+/* Footer */
 
 .footer {
     padding-top: clamp(14px, 2.4vw, 22px);
@@ -224,98 +308,105 @@ a {
         width: min(100% - 40px, 720px);
         height: auto;
         min-height: 100svh;
-        padding-top: 20px;
-        overflow: visible;
     }
 
     .hero {
         grid-template-columns: 1fr;
-        gap: 26px;
+        row-gap: 32px;
         justify-items: center;
+        padding-top: 28px;
         text-align: center;
     }
 
     .hero-media {
-        order: 1;
+        grid-row: 1;
+        width: 100%;
     }
 
     .hero-copy {
-        order: 2;
+        grid-column: 1;
+        grid-row: 2;
         max-width: 560px;
-        padding-top: 0;
-    }
-
-    .app-lockup {
-        flex-direction: column;
-        justify-content: center;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-
-    .app-title {
-        align-items: center;
-        text-align: center;
     }
 
     .intro,
-    .plus-copy {
+    .plus-note {
         margin-left: auto;
         margin-right: auto;
     }
 
-    .shot-stage {
-        width: min(44vw, 264px);
+    .swap {
+        justify-items: center;
+    }
+
+    .headline {
+        justify-content: center;
+        text-align: left;
+    }
+
+    .topbar {
+        justify-content: center;
+    }
+
+    .stage-box {
+        --stage-h: min(90vw, 545px);
+    }
+
+    .shot-stage,
+    .shot-stage-ios {
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 
 @media (max-width: 640px) {
     .page {
         width: calc(100% - 32px);
-        padding-top: 18px;
+        padding-top: 16px;
     }
 
-    .app-lockup {
-        justify-content: center;
+    .platform-option {
+        min-width: 72px;
+        padding: 8px 14px;
+        font-size: 0.95rem;
     }
 
-    .app-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 15px;
+    .hero {
+        row-gap: 28px;
+        padding-top: 24px;
     }
 
-    .app-title {
-        gap: 2px;
+    /* Let the screenshot use nearly the full phone width. */
+    .stage-box {
+        --stage-h: min(122vw, 480px);
     }
 
-    .app-name {
-        font-size: clamp(1.26rem, 5.7vw, 1.58rem);
+    .headline {
+        font-size: clamp(1.9rem, 8.6vw, 2.3rem);
     }
 
-    .app-tagline {
-        font-size: clamp(0.92rem, 4.6vw, 1.18rem);
-    }
-
-    .intro,
-    .plus-copy {
-        font-size: 0.98rem;
+    .intro {
+        margin-top: 18px;
+        font-size: 1.08rem;
     }
 
     .app-store-badge {
-        margin-top: 24px;
+        margin-top: 26px;
     }
 
-    .app-store-badge-image {
-        width: min(220px, 72vw);
-    }
-
-    .shot-stage {
-        width: min(44vw, 192px);
+    .plus-note {
+        font-size: 0.92rem;
     }
 
     .footer-inner {
         flex-direction: column;
         text-align: center;
         gap: 10px;
+    }
+
+    .footer-copy,
+    .footer-link {
+        font-size: 0.85rem;
     }
 }

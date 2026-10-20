@@ -1,35 +1,58 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-platform="ios">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Onami</title>
-    <meta name="description" content="Onami is a focused radio player for discovering stations, saving favorites, and listening without clutter.">
+    <title>Onami – Radio, without the clutter</title>
+    <meta name="description" content="Onami is a focused radio player for iPhone and Mac: discover stations, save favorites, and listen without clutter.">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="preconnect" href="https://toolbox.marketingtools.apple.com">
     <link rel="stylesheet" href="styles.css">
+    <script>
+        (function () {
+            var hash = location.hash.replace("#", "");
+            var isMac = /Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints < 2;
+            var platform = hash === "mac" || hash === "ios" ? hash : (isMac ? "mac" : "ios");
+            document.documentElement.setAttribute("data-platform", platform);
+        }());
+    </script>
 </head>
 <body>
     <main class="page">
+        <header class="topbar">
+            <div class="platform-toggle" role="tablist" aria-label="Choose platform">
+                <span class="platform-toggle-thumb" aria-hidden="true"></span>
+                <button class="platform-option" type="button" role="tab" data-target="ios">iPhone</button>
+                <button class="platform-option" type="button" role="tab" data-target="mac">Mac</button>
+            </div>
+        </header>
+
         <section class="hero">
             <div class="hero-copy">
-                <div class="app-lockup">
-                    <img class="app-icon" src="images/icon_light.png" alt="Onami app icon">
-                    <h1 class="app-title">
-                        <span class="app-name">Onami</span>
-                        <span class="app-tagline">Radio, <span class="app-tagline-muted">without the clutter</span></span>
-                    </h1>
+                <h1 class="headline">
+                    <img class="headline-icon" src="images/icon.webp" alt="Onami" width="80" height="80">
+                    <span class="headline-text">
+                        Radio,
+                        <span class="headline-muted">without the clutter.</span>
+                    </span>
+                </h1>
+
+                <div class="swap">
+                <p class="intro" data-show="ios">
+                    Discover stations from around the world, keep your favorites close, and start listening instantly.
+                    Onami keeps playing in the background and on CarPlay, so your radio comes with you.
+                </p>
+                <p class="intro" data-show="mac">
+                    The radio you love, in a compact window on your Mac. Browse stations from around the world,
+                    keep your favorites one click away, and look back at what you've been listening to.
+                </p>
                 </div>
 
-                <p class="intro">
-                    Discover stations from around the world, keep your favorite ones close, and jump into playback instantly.
-                </p>
-
-                <p class="plus-copy">
-                    <span class="plus-emphasis">Onami Plus</span> unlocks song detection, removes ads, and expands favorites for
-                    listeners who want the full app.
-                </p>
-
+                <div class="swap badge-swap">
                 <a
                     class="app-store-badge"
+                    data-show="ios"
                     href="https://apps.apple.com/us/app/onami/id6760269737?itscg=30200&amp;itsct=apps_box_badge&amp;mttnsubad=6760269737"
                     target="_blank"
                     rel="noreferrer"
@@ -39,15 +62,49 @@
                         class="app-store-badge-image"
                         src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us?releaseDate=1774742400"
                         alt="Download on the App Store"
+                        width="120"
+                        height="40"
                     >
                 </a>
+                <a
+                    class="app-store-badge"
+                    data-show="mac"
+                    href="https://apps.apple.com/us/app/onami/id6760269737?platform=mac"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Download Onami on the Mac App Store"
+                >
+                    <img
+                        class="app-store-badge-image"
+                        src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-mac-app-store/black/en-us"
+                        alt="Download on the Mac App Store"
+                        width="156"
+                        height="40"
+                    >
+                </a>
+                </div>
+
+                <div class="swap">
+                <p class="plus-note" data-show="ios">
+                    <strong>Onami Plus</strong> adds song detection and removes ads. One purchase covers iPhone and Mac.
+                </p>
+                <p class="plus-note" data-show="mac">
+                    Playing stations on Mac needs <strong>Onami Plus</strong>. Already have it on iPhone? It's included.
+                </p>
+                </div>
             </div>
 
             <div class="hero-media" aria-hidden="true">
-                <div class="shot-stage">
-                    <img class="shot" src="images/screen_discover.png" alt="">
-                    <img class="shot is-active" src="images/screen_favorites.png" alt="">
-                    <img class="shot" src="images/screen_playing.png" alt="">
+                <div class="stage-box">
+                <div class="shot-stage shot-stage-ios" data-show="ios">
+                    <img class="shot is-active" src="images/ios_favorites.webp" alt="" width="640" height="1321" fetchpriority="high">
+                    <img class="shot" src="images/ios_discover.webp" alt="" width="640" height="1321" loading="lazy">
+                    <img class="shot" src="images/ios_playing.webp" alt="" width="640" height="1321" loading="lazy">
+                </div>
+                <div class="shot-stage shot-stage-mac" data-show="mac">
+                    <img class="shot is-active" src="images/mac_player.webp" alt="" width="1052" height="1406" loading="lazy">
+                    <img class="shot" src="images/mac_history.webp" alt="" width="1052" height="1406" loading="lazy">
+                </div>
                 </div>
             </div>
         </section>
@@ -64,16 +121,41 @@
 
     <script>
         (function () {
-            var shots = Array.prototype.slice.call(document.querySelectorAll(".shot-stage .shot"));
-            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || shots.length < 2) {
+            var root = document.documentElement;
+            var buttons = Array.prototype.slice.call(document.querySelectorAll(".platform-option"));
+
+            function select(platform, updateHash) {
+                root.setAttribute("data-platform", platform);
+                buttons.forEach(function (button) {
+                    button.setAttribute("aria-selected", String(button.getAttribute("data-target") === platform));
+                });
+                if (updateHash) {
+                    history.replaceState(null, "", "#" + platform);
+                }
+            }
+
+            buttons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    select(button.getAttribute("data-target"), true);
+                });
+            });
+            select(root.getAttribute("data-platform"), false);
+
+            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
                 return;
             }
 
-            var index = 0;
             window.setInterval(function () {
+                var stage = document.querySelector(".shot-stage-" + root.getAttribute("data-platform"));
+                var shots = stage ? stage.querySelectorAll(".shot") : [];
+                if (shots.length < 2 || document.hidden) {
+                    return;
+                }
+                var index = Array.prototype.findIndex.call(shots, function (shot) {
+                    return shot.classList.contains("is-active");
+                });
                 shots[index].classList.remove("is-active");
-                index = (index + 1) % shots.length;
-                shots[index].classList.add("is-active");
+                shots[(index + 1) % shots.length].classList.add("is-active");
             }, 4200);
         }());
     </script>
